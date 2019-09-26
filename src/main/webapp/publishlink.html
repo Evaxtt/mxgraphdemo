@@ -1,0 +1,170 @@
+
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=5,IE=9" ><![endif]-->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Grapheditor viewer</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			overflow: hidden;
+		}
+
+		#graph {
+			background-color: aliceblue;
+		}
+	</style>
+	<script type="text/javascript">
+		var STENCIL_PATH = 'stencils';
+		var IMAGE_PATH = 'images';
+		var STYLE_PATH = 'styles';
+
+		var urlParams = (function(url)
+		{
+			var result = new Object();
+			var idx = url.lastIndexOf('?');
+
+			if (idx > 0)
+			{
+				var params = url.substring(idx + 1).split('&');
+
+				for (var i = 0; i < params.length; i++)
+				{
+					idx = params[i].indexOf('=');
+
+					if (idx > 0)
+					{
+						result[params[i].substring(0, idx)] = params[i].substring(idx + 1);
+					}
+				}
+			}
+
+
+			return result;
+		})(window.location.href);
+
+		// Sets the base path, the UI language via URL param and configures the
+		// supported languages to avoid 404s. The loading of all core language
+		// resources is disabled as all required resources are in grapheditor.
+		// properties. Note that in this example the loading of two resource
+		// files (the special bundle and the default bundle) is disabled to
+		// save a GET request. This requires that all resources be present in
+		// each properties file since only one file is loaded.
+		var mxLoadResources = false;
+		var mxBasePath = './graph';
+	</script>
+	<script type="text/javascript" src="graph/sanitizer/sanitizer.min.js"></script>
+	<script type="text/javascript" src="graph/js/mxClient.js"></script>
+	<script type="text/javascript" src="graph/js/Graph.js"></script>
+	<script type="text/javascript" src="graph/js/Shapes.js"></script>
+	<script type="text/javascript" src="graph/lib/jquery.js"></script>
+	<script type="text/javascript" src="graph/lib/echarts.min.js"></script>
+</head>
+<body class="geEditor">
+<div id="graph"></div>
+<script>
+	var graphDiv = document.getElementById('graph');
+	var graph = new Graph(graphDiv);
+	graph.setResizeContainer = true;
+	graph.setEnabled(false);
+	var graphData = window.sessionStorage.getItem("publishXml");
+	show(graphData);
+	var resizer = new mxDivResizer(graphDiv);
+	resizer.getDocumentWidth = function () {
+		return document.body.scrollWidth;
+	};
+	resizer.getDocumentHeight = function(){
+		return document.body.scrollHeight;
+	};
+
+	function show(data){
+		var xmlDoc = mxUtils.parseXml(data);
+		window.xmlDoc = xmlDoc;
+		var rootNode = xmlDoc.children[0];
+		window.pageWidth = rootNode.getAttribute('pageWidth');
+		window.pageHeight = rootNode.getAttribute('pageHeight');
+		var codec = new mxCodec(xmlDoc);
+		codec.decode(xmlDoc.documentElement, graph.getModel());
+		update();
+	}
+
+	function update(){
+		var winWidth = window.innerWidth;
+		var winHeight = window.innerHeight;
+		// graph.getModel().beginUpdate();
+		var ArrayEchart=[];
+		var eChartContent='<div id="echartS"  style="width:600px;height:300px;"> </div>'
+		// var eChartContent='<div id="echartS"  style="width:100%;height:100%;"> </div>'
+		try {
+			// resize cells
+			// 获取每个组件
+			var allCells = graph.getAllCells(0, 0, 2000, 2000);
+			for(var i=0; i<allCells.length; i++){
+				var cell = allCells[i];
+				if(cell.value===eChartContent){
+					ArrayEchart.push(cell.localData)
+				}
+				// 获取每个组件的x轴y轴的起点及宽高
+				var geo = graph.getCellGeometry(cell).clone();
+				// 根据当前页面的大小及设置的页面大小比例计算出每个组件的x,y,width,height
+				var wPercentage = winWidth / window.pageWidth;
+				var hPercentage = winHeight / window.pageHeight;
+				var newX = geo.x * wPercentage;
+				var newWidth = geo.width * wPercentage;
+				var newY = geo.y * hPercentage;
+				var newHeight = geo.height * hPercentage;
+
+				geo.x = newX;
+				geo.y = newY;
+				geo.width = newWidth;
+				geo.height = newHeight;
+				graph.getModel().setGeometry(cell, geo);
+			}
+		} finally {
+			graph.refresh();
+			graph.getModel().endUpdate();
+
+			var echartS=document.querySelectorAll('#echartS')
+			for (let i = 0; i < ArrayEchart.length; i++) {
+				var myChart =echarts.init(echartS[i]);
+				var ArrayEcharts=JSON.parse(ArrayEchart[i])
+				myChart.setOption(ArrayEcharts);
+
+				echartS[i].style.width="100%";
+				echartS[i].style.height="100%";
+				var divS=echartS[i].childNodes[0];
+				divS.style.width="100%";
+				divS.style.height="100%";
+				var canvasS= divS.childNodes[0];
+				canvasS.style.width="100%";
+				canvasS.style.height="100%";
+
+			}
+
+
+			graphDiv.style.width = '100%';
+			graphDiv.style.height = '100%';
+			graphDiv.style.position = 'absolute';
+			graphDiv.style.top = '0';
+			graphDiv.style.left = '0';
+			graphDiv.style.right = '0';
+			graphDiv.style.bottom = '0';
+
+			window.pageWidth = window.innerWidth;
+			window.pageHeight = window.innerHeight;
+		}
+	}
+
+	window.onresize = function() {
+		update()
+	};
+</script>
+</body>
+</html>
