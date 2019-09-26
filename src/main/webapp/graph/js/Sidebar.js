@@ -1047,7 +1047,7 @@ Sidebar.prototype.addMiscPalette = function(expand)
 
         this.createVertexTemplateEntry('text;html=1;strokeColor=none;fillColor=none;overflow=fill;', 160, 140,
             '<div id="echartS" ' +
-            ' style="width:100%;height:100%;">'+
+            ' style="width:500px;height:260px;">'+
             ' </div>', 'eChartTest'),
         this.addEntry('EChartTest', mxUtils.bind(this, function()
         {
@@ -3326,7 +3326,8 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
 
                 // 使用刚指定的配置项和数据显示图表。
 
-                var tempDiv='<div id="echartS"  style="width:100%;height:100%;"> </div>'
+                var tempDiv='<div id="echartS"' +
+                    '  style="width:500px;height:260px;"> </div>'
 
                 myChart.setOption(option);
                 arrayChart.push(myChart);
@@ -3335,7 +3336,6 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
 
                 // echart下所有元素设置100%
                 var divParent=document.querySelectorAll('#echartS')[i];
-                console.log($(divParent.parentNode))
                 UpdataRender()
                 function UpdataRender(){
                     var echartWidth=echartS[i].parentNode.style.width.replace(/[^0-9]/ig, "");
@@ -3356,7 +3356,6 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
                 }
 
                 var geo = graph.getCellGeometry(cells[0]).clone();
-                console.log(geo);
                 // 初始化input
                 var num=7;
                 $('tr')[1].children[0].children[0].value=num;
