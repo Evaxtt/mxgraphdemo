@@ -127,6 +127,17 @@
 				geo.height = newHeight;
 				graph.getModel().setGeometry(cell, geo);
 			}
+
+			var backgroundColor = graph.getModel().background;
+			if(backgroundColor){
+				graphDiv.style.backgroundColor = backgroundColor;
+			}
+			var backgroundImage = JSON.parse(graph.getModel().backgroundImage);
+			if(backgroundImage){
+				graphDiv.style.backgroundImage = 'url('+ backgroundImage.src +')';
+				graphDiv.style.backgroundRepeat = 'no-repeat';
+				graphDiv.style.backgroundSize = '' + backgroundImage.width +'px ' + backgroundImage.height +'px';
+			}
 		} finally {
 			graph.refresh();
 			graph.getModel().endUpdate();

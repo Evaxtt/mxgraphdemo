@@ -581,6 +581,9 @@ Editor.prototype.getGraphXml = function(ignoreSelection)
 	{
 		node.setAttribute('background', this.graph.background);
 	}
+	if(this.graph.backgroundImage != null){
+		node.setAttribute('backgroundImage', JSON.stringify(this.graph.backgroundImage))
+	}
 	
 	return node;
 };
