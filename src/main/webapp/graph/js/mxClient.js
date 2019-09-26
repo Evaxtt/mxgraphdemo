@@ -10885,8 +10885,12 @@ var mxEvent =
  */
 function mxXmlRequest(url, params, method, async, username, password)
 {
-	this.url = url;
-	this.params = params;
+    // 调接口时接口名前面加上projectPrefix：项目名前缀
+    if (url.endsWith('/')) {
+        this.url = projectPrefix + url;
+    }
+    this.url = projectPrefix + '/' + url;
+    this.params = params;
 	this.method = method || 'POST';
 	this.async = (async != null) ? async : true;
 	this.username = username;

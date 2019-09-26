@@ -123,8 +123,7 @@
                 // Updates action states which require a backend
                 if (!Editor.useLocalStorage)
                 {
-                    mxUtils.post(OPEN_URL, '', mxUtils.bind(this, function(req)
-                    {
+                    mxUtils.post(OPEN_URL, '', mxUtils.bind(this, function (req) {
                         var enabled = req.getStatus() != 404;
                         this.actions.get('open').setEnabled(enabled || Graph.fileSupport);
                         this.actions.get('import').setEnabled(enabled || Graph.fileSupport);

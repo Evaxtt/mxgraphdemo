@@ -7,7 +7,8 @@ import org.mortbay.jetty.handler.ResourceHandler;
 import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHolder;
 
-import static sun.net.www.protocol.http.AuthCacheValue.Type.Server;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 /**
  * The save servlet is used to echo XML to the client, eg. for SVG export and saving
@@ -35,7 +36,7 @@ public class GraphEditor
 	/**
 	 * Point your browser to http://localhost:8080/javascript/examples/grapheditor/www/index.html
 	 */
-	public static void main(String[] args) throws Exception
+	public void startServlet() throws Exception
 	{
 		Server server = new Server(PORT);
 
@@ -57,4 +58,5 @@ public class GraphEditor
 		server.start();
 		server.join();
 	}
+
 }
