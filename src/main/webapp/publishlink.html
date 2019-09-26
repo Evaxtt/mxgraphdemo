@@ -100,8 +100,8 @@
 		var winHeight = window.innerHeight;
 		// graph.getModel().beginUpdate();
 		var ArrayEchart=[];
-		var eChartContent='<div id="echartS"  style="width:600px;height:300px;"> </div>'
-		// var eChartContent='<div id="echartS"  style="width:100%;height:100%;"> </div>'
+		// var eChartContent='<div id="echartS"  style="width:600px;height:300px;"> </div>'
+		var eChartContent='<div id="echartS"  style="width:100%;height:100%;"> </div>'
 		try {
 			// resize cells
 			// 获取每个组件
@@ -134,17 +134,23 @@
 			var echartS=document.querySelectorAll('#echartS')
 			for (let i = 0; i < ArrayEchart.length; i++) {
 				var myChart =echarts.init(echartS[i]);
-				var ArrayEcharts=JSON.parse(ArrayEchart[i])
+				var ArrayEcharts=JSON.parse(ArrayEchart[i]);
 				myChart.setOption(ArrayEcharts);
-
-				echartS[i].style.width="100%";
-				echartS[i].style.height="100%";
+				var echartWidth=echartS[i].parentNode.style.width.replace(/[^0-9]/ig, "");
+				var echartHeight=echartS[i].parentNode.style.height.replace(/[^0-9]/ig, "");
 				var divS=echartS[i].childNodes[0];
-				divS.style.width="100%";
-				divS.style.height="100%";
 				var canvasS= divS.childNodes[0];
-				canvasS.style.width="100%";
-				canvasS.style.height="100%";
+
+				canvasS.setAttribute("width",echartWidth*1.05);
+				canvasS.setAttribute("height",echartHeight*1.25);
+
+				echartS[i].style.width=echartWidth+'px';
+				echartS[i].style.height=echartHeight+'px';
+				divS.style.width=echartWidth+'px';
+				divS.style.height=echartHeight+'px';
+				canvasS.style.width=echartWidth+'px';
+				canvasS.style.height=echartHeight+'px';
+
 
 			}
 

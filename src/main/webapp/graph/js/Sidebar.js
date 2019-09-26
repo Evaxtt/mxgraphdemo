@@ -4,7 +4,6 @@
 /**
  * Construcs a new sidebar for the given editor.
  */
-var myChart;
 function Sidebar(editorUi, container)
 {
     this.editorUi = editorUi;
@@ -1045,18 +1044,10 @@ Sidebar.prototype.addMiscPalette = function(expand)
             '<tr><td align="center">Section 1.1\nSection 1.2\nSection 1.3</td></tr>' +
             '<tr><td align="center">Section 2.1\nSection 2.2\nSection 2.3</td></tr></table>', 'Table 4'),
 
-        // var data = "111";
-        // var cell = new mxCell('', new mxGeometry(0, 0, 400, 400), 'text;html=1;strokeColor=none;fillColor=none;overflow=fill;');
-        // cell.vertex = true;
-        // cell.type = "echarts";
-        // cell.localData = JSON.stringify(data);
-        // this.createVertexTemplateEntry([cell], 160, 140,
-        //     '<div id="echartS" ' +
-        //     ' style="width:600px;height:300px;">'+
-        //     ' </div>', 'eChartTest'),
+
         this.createVertexTemplateEntry('text;html=1;strokeColor=none;fillColor=none;overflow=fill;', 160, 140,
             '<div id="echartS" ' +
-            ' style="width:600px;height:300px;">'+
+            ' style="width:100%;height:100%;">'+
             ' </div>', 'eChartTest'),
         this.addEntry('EChartTest', mxUtils.bind(this, function()
         {
@@ -3246,7 +3237,6 @@ Sidebar.prototype.createVertexTemplateEntry = function(style, width, height, val
 Sidebar.prototype.addClickHandler = function(elt, ds, cells)
 {
 
-    // console.log(myChart);
     var graph = this.editorUi.editor.graph;
     var oldMouseDown = ds.mouseDown;
     var oldMouseMove = ds.mouseMove;
@@ -3268,7 +3258,6 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
 
     ds.mouseMove = function(evt)
     {
-        // console.log(document.querySelectorAll('#echartS')[1])
         if (this.dragElement != null && this.dragElement.style.display == 'none' &&
             first != null && (Math.abs(first.x - mxEvent.getClientX(evt)) > tol ||
                 Math.abs(first.y - mxEvent.getClientY(evt)) > tol))
@@ -3335,17 +3324,39 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
                 // 初始化
                 var myChart =echarts.init(ECElement[i]);
 
-
                 // 使用刚指定的配置项和数据显示图表。
-                var tempDiv='<div id="echartS" ' +
-                    ' style="width:600px;height:300px;"> </div>'
-                // var tempDiv='<div id="echartS" ' +
-                //     ' style="width:100%;height:100%"> </div>'
+
+                var tempDiv='<div id="echartS"  style="width:100%;height:100%;"> </div>'
 
                 myChart.setOption(option);
                 arrayChart.push(myChart);
                 arrayOption.push(option);
 
+
+                // echart下所有元素设置100%
+                var divParent=document.querySelectorAll('#echartS')[i];
+                console.log($(divParent.parentNode))
+                UpdataRender()
+                function UpdataRender(){
+                    var echartWidth=echartS[i].parentNode.style.width.replace(/[^0-9]/ig, "");
+                    var echartHeight=echartS[i].parentNode.style.height.replace(/[^0-9]/ig, "");
+                    echartS[i].style.width=100+'%';
+                    echartS[i].style.height=100+'%';
+                    var divS=echartS[i].childNodes[0];
+                    divS.style.width=100+'%';
+                    divS.style.height=100+'%';
+                    var canvasS= divS.childNodes[0];
+                    canvasS.style.width=100+'%';
+                    canvasS.style.height=100+'%';
+
+                    // canvasS.setAttribute("width",echartWidth)*1.15;
+                    // canvasS.setAttribute("height",echartHeight*1.25);
+                    // canvasS.setAttribute("width",200);
+                    // canvasS.setAttribute("height",175);
+                }
+
+                var geo = graph.getCellGeometry(cells[0]).clone();
+                console.log(geo);
                 // 初始化input
                 var num=7;
                 $('tr')[1].children[0].children[0].value=num;
@@ -3408,8 +3419,8 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
 
                     }
 
-
                 }
+
                 // 模态框点击事件
                 ECElement[i].onclick=function (e) {
                     // 查找点击元素索引
@@ -3422,6 +3433,14 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
                     var options =arrayOption[0];
                     var dataSS=options.series[0].data;
                     var graphAll=graph.getAllCells(0, 0, 2000, 2000)
+                    // 存储echarts的cells
+                    var ArrChart=[];
+                    // 判断是否是echarts
+                    for (let i = 0; i < graphAll.length; i++) {
+                        if (graphAll[i].value==tempDiv){
+                            ArrChart.push(graphAll[i])
+                        }
+                    }
 
                     var num=dataSS.length
                     resetIput(dataSS)
@@ -3436,27 +3455,10 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
                         $('#contentConfig input')[0].checked=true
                     }
 
-                    // 存储echarts的cells
-                    var ArrChart=[]
-                    // 判断是否是echarts
-                    for (let i = 0; i < graphAll.length; i++) {
-                        if (graphAll[i].value==tempDiv){
-                            ArrChart.push(graphAll[i])
-                        }
-                    }
+
 
 
                     $('#Determine').unbind("click").bind("click",function(){
-
-                        ArrChart[cellIndex-1].localData=JSON.stringify(options);
-
-                        // var allCells = graph.getAllCells(0, 0, 2000, 2000)
-                        // editorUi.createXml(mxUtils.bind(this, function(xml){
-                        //     window.sessionStorage.setItem( 'publishXml', xml);
-                        // }))
-
-                        var  optiontest=JSON.stringify(echartsArr);
-                        sessionStorage.setItem('option',optiontest);
 
 
                         var IStrue=$('#contentConfig input')[0].checked;
@@ -3470,25 +3472,37 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
                         resetIput(dataSS,myCharts,options)
 
                         $("#myModal").modal('hide')
+
+                        ArrChart[cellIndex-1].localData=JSON.stringify(options);
+
                     });
+
 
                 };
 
-                // echart下所有元素设置100%
-                var divParent=document.querySelectorAll('#echartS')[i];
 
-                divParent.style.width="100%";
-                divParent.style.height="100%";
-                var divS=divParent.childNodes[0];
-                divS.style.width="100%";
-                divS.style.height="100%";
-                var canvasS= divS.childNodes[0];
-                canvasS.style.width="100%";
-                canvasS.style.height="100%";
-                // var numss=divParent.parentNode.style.width.replace(/[^0-9]/ig, "")
-                // console.log(numss)
-                // canvasS.setAttribute('width','125%')
-                // canvasS.setAttribute('height','125%')
+
+                // UpdataRender()
+                // function UpdataRender(){
+                //     var echartWidth=echartS[i].parentNode.style.width.replace(/[^0-9]/ig, "");
+                //     var echartHeight=echartS[i].parentNode.style.height.replace(/[^0-9]/ig, "");
+                //     echartS[i].style.width=echartWidth+'px';
+                //     echartS[i].style.height=echartHeight+'px';
+                //     var divS=echartS[i].childNodes[0];
+                //     divS.style.width=echartWidth+'px';
+                //     divS.style.height=echartHeight+'px';
+                //     var canvasS= divS.childNodes[0];
+                //     canvasS.style.width=echartWidth+'px';
+                //     canvasS.style.height=echartHeight+'px';
+                //
+                //     canvasS.setAttribute("width",echartWidth)*1.15;
+                //     canvasS.setAttribute("height",echartHeight*1.25);
+                // }
+
+                // $(divParent.parentNode).resize(function () {
+                //     // UpdataRender()
+                //     console.log($(divParent.parentNode))
+                // });
             }
         }
     };
