@@ -3,15 +3,16 @@
  */
 package com.mxgraph.examples.web;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.Hashtable;
+import com.mxgraph.canvas.mxGraphicsCanvas2D;
+import com.mxgraph.canvas.mxICanvas2D;
+import com.mxgraph.reader.mxSaxOutputHandler;
+import com.mxgraph.util.mxUtils;
+import com.mxpdf.text.Document;
+import com.mxpdf.text.DocumentException;
+import com.mxpdf.text.pdf.PdfWriter;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -20,18 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-
-import com.mxpdf.text.Document;
-import com.mxpdf.text.DocumentException;
-import com.mxpdf.text.pdf.PdfWriter;
-import com.mxgraph.canvas.mxGraphicsCanvas2D;
-import com.mxgraph.canvas.mxICanvas2D;
-import com.mxgraph.reader.mxSaxOutputHandler;
-import com.mxgraph.util.mxUtils;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Hashtable;
 
 /**
  * Servlet implementation class ImageServlet.
@@ -233,7 +229,8 @@ public class ExportServlet extends HttpServlet
 		PdfWriter writer = PdfWriter.getInstance(document, response.getOutputStream());
 		document.open();
 
-		mxGraphicsCanvas2D gc = createCanvas(url, writer.getDirectContent().createGraphics(w, h));
+		Graphics2D graphics = writer.getDirectContent().createGraphics(w, h);
+		mxGraphicsCanvas2D gc = createCanvas(url, graphics);
 
 		// Fixes PDF offset
 		gc.translate(1, 1);
