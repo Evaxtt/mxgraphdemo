@@ -138,6 +138,9 @@
 				graphDiv.style.backgroundImage = 'url('+ backgroundImage.src +')';
 				graphDiv.style.backgroundRepeat = 'no-repeat';
 				graphDiv.style.backgroundSize = '' + backgroundImage.width +'px ' + backgroundImage.height +'px';
+				if(backgroundImage.isFullScreen){
+					graphDiv.style.backgroundSize = 'cover'
+				}
 			}
 		} finally {
 			graph.refresh();

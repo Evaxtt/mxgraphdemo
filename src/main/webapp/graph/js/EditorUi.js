@@ -3910,28 +3910,72 @@ EditorUi.prototype.showBackgroundImageDialog = function(apply)
 		
 		this.editor.graph.model.execute(change);
 	});
+
+	var dlg = new BackgroundImageDialog(this, mxUtils.bind(this, function(image){
+		apply(image);
+	}));
+
+	this.showDialog(dlg.container, 360, 240, true, true);
+	dlg.init();
 	
-	var newValue = mxUtils.prompt(mxResources.get('backgroundImage'), '');
-	
-	if (newValue != null && newValue.length > 0)
+	// var newValue = mxUtils.prompt(mxResources.get('backgroundImage'), '');
+	//
+	// if (newValue != null && newValue.length > 0)
+	// {
+	// 	var img = new Image();
+	//
+	// 	img.onload = function()
+	// 	{
+	// 		apply(new mxImage(newValue, img.width, img.height));
+	// 	};
+	// 	img.onerror = function()
+	// 	{
+	// 		apply(null);
+	// 		mxUtils.alert(mxResources.get('fileNotFound'));
+	// 	};
+	//
+	// 	img.src = newValue;
+	// }
+	// else
+	// {
+	// 	apply(null);
+	// }
+};
+
+/**
+ * Loads the image from the given URI.
+ *
+ * @param {number} dx X-coordinate of the translation.
+ * @param {number} dy Y-coordinate of the translation.
+ */
+EditorUi.prototype.loadImage = function(uri, onload, onerror)
+{
+	try
 	{
 		var img = new Image();
-		
+
 		img.onload = function()
 		{
-			apply(new mxImage(newValue, img.width, img.height));
-		};
-		img.onerror = function()
+			onload(img);
+		}
+
+		if (onerror != null)
 		{
-			apply(null);
-			mxUtils.alert(mxResources.get('fileNotFound'));
-		};
-		
-		img.src = newValue;
+			img.onerror = onerror;
+		}
+
+		img.src = uri;
 	}
-	else
+	catch (e)
 	{
-		apply(null);
+		if (onerror != null)
+		{
+			onerror(e);
+		}
+		else
+		{
+			throw e;
+		}
 	}
 };
 
