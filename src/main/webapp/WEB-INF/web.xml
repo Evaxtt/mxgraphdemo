@@ -7,7 +7,7 @@
 
   <servlet>
     <servlet-name>EchoServlet</servlet-name>
-    <servlet-class>com.mxgraph.examples.web.EchoServlet</servlet-class>
+    <servlet-class>com.mxgraph.web.EchoServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>EchoServlet</servlet-name>
@@ -16,7 +16,7 @@
 
   <servlet>
     <servlet-name>ExportServlet</servlet-name>
-    <servlet-class>com.mxgraph.examples.web.ExportServlet</servlet-class>
+    <servlet-class>com.mxgraph.web.ExportServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ExportServlet</servlet-name>
@@ -25,7 +25,7 @@
 
   <servlet>
     <servlet-name>OpenServlet</servlet-name>
-    <servlet-class>com.mxgraph.examples.web.OpenServlet</servlet-class>
+    <servlet-class>com.mxgraph.web.OpenServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>OpenServlet</servlet-name>
