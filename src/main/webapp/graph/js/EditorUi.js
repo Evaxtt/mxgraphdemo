@@ -7,7 +7,7 @@
 EditorUi = function(editor, container, lightbox)
 {
 	mxEventSource.call(this);
-    this.drawHost = 'http://localhost:8080/mxgraph/';
+	this.drawHost = location.origin + projectPrefix;
 	this.destroyFunctions = [];
 	this.editor = editor || new Editor();
 	this.container = container || document.body;

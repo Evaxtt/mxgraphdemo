@@ -54,6 +54,19 @@
 
     <build>
         <finalName>mxgraph-demo</finalName>
+        <!--资源目录-->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.afm</include>
+                    <include>**/*.txt</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.cmap</include>
+                </includes>
+            </resource>
+        </resources>
+
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <plugin>
