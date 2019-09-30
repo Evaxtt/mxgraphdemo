@@ -12853,6 +12853,14 @@ function mxImage(src, width, height)
 	this.height = height;
 };
 
+function newMxImage(src, width, height, isFullScreen)
+{
+    this.src = src;
+    this.width = width;
+    this.height = height;
+    this.isFullScreen = isFullScreen;
+};
+
 /**
  * Variable: src
  *

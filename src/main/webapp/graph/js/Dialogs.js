@@ -2785,3 +2785,123 @@ var LayersWindow = function(editorUi, x, y, w, h)
 		this.window.destroy();
 	}
 };
+
+
+/**
+ * Constructs a new parse dialog.
+ */
+var BackgroundImageDialog = function(editorUi, applyFn){
+	var div = document.createElement('div');
+	div.style.whiteSpace = 'nowrap';
+
+	var h2 = document.createElement('h2');
+	mxUtils.write(h2, mxResources.get('backgroundImage'));
+	div.appendChild(h2);
+
+	mxUtils.write(div, mxResources.get('image') + ' ' + mxResources.get('url') + ':');
+	mxUtils.br(div);
+
+	var img = editorUi.editor.graph.backgroundImage;
+	var resetting = false;
+
+	var urlInput = document.createElement('input');
+	urlInput.setAttribute('type', 'text');
+	urlInput.style.marginTop = '4px';
+	urlInput.style.marginBottom = '4px';
+	urlInput.style.width = '350px';
+	urlInput.value = (img != null) ? img.src : '';
+	div.appendChild(urlInput);
+	mxUtils.br(div);
+	mxUtils.br(div);
+
+	mxUtils.write(div, mxResources.get('width') + ':');
+	var widthInput = document.createElement('input');
+	widthInput.setAttribute('type', 'text');
+	widthInput.style.width = '60px';
+	widthInput.style.marginLeft = '4px';
+	widthInput.style.marginRight = '16px';
+	widthInput.value = (img != null) ? img.width : '';
+	widthInput.disabled = (img != null) ? img.isFullScreen : false;
+	div.appendChild(widthInput);
+
+	mxUtils.write(div, mxResources.get('height') + ':');
+	var heightInput = document.createElement('input');
+	heightInput.setAttribute('type', 'text');
+	heightInput.style.width = '60px';
+	heightInput.style.marginLeft = '4px';
+	heightInput.style.marginRight = '16px';
+	heightInput.value = (img != null) ? img.height : '';
+	heightInput.disabled = (img != null) ? img.isFullScreen : false;
+	div.appendChild(heightInput);
+
+	var resetBtn = mxUtils.button(mxResources.get('reset'), function(){
+		urlInput.value = '';
+		widthInput.value = '';
+		heightInput.value = '';
+		resetting = false;
+	});
+	resetBtn.className = 'geBtn';
+	resetBtn.width = '100';
+	div.appendChild(resetBtn);
+	mxUtils.br(div);
+	mxUtils.br(div);
+
+	var fullScreen = document.createElement('div');
+	var checkbox = document.createElement('input');
+	checkbox.setAttribute('type', 'checkbox');
+	checkbox.checked = (img != null) ? img.isFullScreen : false;
+	fullScreen.appendChild(checkbox);
+	var checkboxLabel = document.createElement('label');
+	checkboxLabel.style.fontWeight = 'normal';
+	mxUtils.write(checkboxLabel, mxResources.get('fullScreen'));
+	fullScreen.appendChild(checkboxLabel);
+	div.appendChild(fullScreen);
+	mxUtils.br(div);
+	mxEvent.addListener(checkbox, 'change', function(){
+		if(checkbox.checked){
+			widthInput.disabled = true;
+			heightInput.disabled = true;
+			resetBtn.disabled = true;
+		} else {
+			widthInput.disabled = false;
+			heightInput.disabled = false;
+			resetBtn.disabled = false;
+		}
+	});
+
+	var btns = document.createElement('div');
+	btns.style.marginTop = '20px';
+	btns.style.textAlign = 'right';
+
+	var cancelBtn = mxUtils.button(mxResources.get('cancel'), function(){
+		editorUi.hideDialog();
+	});
+	cancelBtn.className = 'geBtn';
+	btns.appendChild(cancelBtn);
+
+	var applyBtn = mxUtils.button(mxResources.get('apply'), function () {
+		var isFullScreen = checkbox.checked;
+		editorUi.hideDialog();
+		applyFn((urlInput.value != '') ? new newMxImage(mxUtils.trim(urlInput.value), widthInput.value, heightInput.value, isFullScreen) : null);
+	});
+	applyBtn.className = 'geBtn gePrimaryBtn';
+	btns.appendChild(applyBtn);
+	div.appendChild(btns);
+
+	this.container = div;
+
+	this.init = function(){
+		urlInput.focus();
+	};
+	mxEvent.addListener(urlInput, 'change', function(){
+		editorUi.loadImage(mxUtils.trim(urlInput.value), function (img) {
+			widthInput.value = img.width;
+			heightInput.value = img.height;
+		}, function () {
+			editorUi.showError(mxResources.get('error'), mxResources.get('fileNotFound'), mxResources.get('ok'));
+			urlInput.value = '';
+			widthInput.value = '';
+			heightInput.value = '';
+		})
+	});
+};

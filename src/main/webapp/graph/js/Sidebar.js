@@ -98,7 +98,7 @@ Sidebar.prototype.init = function()
             'Database', 'Router_Icon', 'iPad', 'iMac', 'Laptop', 'MacBook', 'Monitor_Tower', 'Printer',
             'Server_Tower', 'Workstation', 'Firewall_02', 'Wireless_Router_N', 'Credit_Card',
             'Piggy_Bank', 'Graph', 'Safe', 'Shopping_Cart', 'Suit1', 'Suit2', 'Suit3', 'Pilot1',
-            'Worker1', 'Soldier1', 'Doctor1', 'Tech1', 'Security1', 'Telesales1'], null,
+            'Worker1', 'Soldier1', 'Doctor1', 'Tech1', 'Security1', 'Telesales1', 'Background'], null,
         {'Wireless_Router_N': 'wireless router switch wap wifi access point wlan',
             'Router_Icon': 'router switch'});
 };

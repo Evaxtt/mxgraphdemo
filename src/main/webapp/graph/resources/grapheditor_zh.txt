@@ -380,3 +380,6 @@ writingDirection=Writing Direction
 zoom=缩放
 zoomIn=放大
 zoomOut=缩小
+
+makeCopy=创建副本
+fullScreen=全屏

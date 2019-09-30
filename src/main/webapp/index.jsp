@@ -8,6 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="graph/lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="graph/styles/grapheditor.css">
+    <style>
+        * {
+            -webkit-box-sizing: inherit;
+            -moz-box-sizing: inherit;
+            box-sizing: inherit;
+        }
+    </style>
     <script type="text/javascript">
         // Parses URL parameters. Supported parameters are:
         // - lang=xy: Specifies the language of the user interface.
