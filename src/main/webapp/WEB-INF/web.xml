@@ -1,35 +1,32 @@
-<!DOCTYPE web-app PUBLIC
-        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-        "http://java.sun.com/dtd/web-app_2_3.dtd" >
-
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+    <display-name>Archetype Created Web Application</display-name>
 
-  <servlet>
-    <servlet-name>EchoServlet</servlet-name>
-    <servlet-class>com.mxgraph.web.EchoServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>EchoServlet</servlet-name>
-    <url-pattern>/save</url-pattern>
-  </servlet-mapping>
+    <servlet>
+        <servlet-name>EchoServlet</servlet-name>
+        <servlet-class>com.mxgraph.web.EchoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EchoServlet</servlet-name>
+        <url-pattern>/save</url-pattern>
+    </servlet-mapping>
 
-  <servlet>
-    <servlet-name>ExportServlet</servlet-name>
-    <servlet-class>com.mxgraph.web.ExportServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ExportServlet</servlet-name>
-    <url-pattern>/export</url-pattern>
-  </servlet-mapping>
+    <servlet>
+        <servlet-name>ExportServlet</servlet-name>
+        <servlet-class>com.mxgraph.web.ExportServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ExportServlet</servlet-name>
+        <url-pattern>/export</url-pattern>
+    </servlet-mapping>
 
-  <servlet>
-    <servlet-name>OpenServlet</servlet-name>
-    <servlet-class>com.mxgraph.web.OpenServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>OpenServlet</servlet-name>
-    <url-pattern>/open</url-pattern>
-  </servlet-mapping>
+    <servlet>
+        <servlet-name>OpenServlet</servlet-name>
+        <servlet-class>com.mxgraph.web.OpenServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OpenServlet</servlet-name>
+        <url-pattern>/open</url-pattern>
+    </servlet-mapping>
 
 </web-app>
