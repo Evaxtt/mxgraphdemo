@@ -94,6 +94,7 @@ drawingTooLarge=Drawing is too large
 duplicate=Duplicate
 duplicateIt=Duplicate {1}
 east=East
+echarts=echarts
 edit=Edit
 editData=Edit Data
 editDiagram=Edit Diagram

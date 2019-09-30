@@ -1,4 +1,3 @@
-
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=5,IE=9" ><![endif]-->
 <!DOCTYPE html>
 <html>
@@ -100,17 +99,14 @@
 		var winHeight = window.innerHeight;
 		// graph.getModel().beginUpdate();
 		var ArrayEchart=[];
-		var
-				eChartContent='<div id="echartS"  style="width:500px;height:260px;"> </div>'
-		// var eChartContent='<div id="echartS"  style="width:100%;height:100%;"> </div>'
 		try {
 			// resize cells
 			// 获取每个组件
 			var allCells = graph.getAllCells(0, 0, 2000, 2000);
 			for(var i=0; i<allCells.length; i++){
 				var cell = allCells[i];
-				if(cell.value===eChartContent){
-					ArrayEchart.push(cell.localData)
+				if(cell.type == "Echarts"){
+					ArrayEchart.push(cell.localData);
 				}
 				// 获取每个组件的x轴y轴的起点及宽高
 				var geo = graph.getCellGeometry(cell).clone();
@@ -148,24 +144,10 @@
 
 			var echartS=document.querySelectorAll('#echartS')
 			for (let i = 0; i < ArrayEchart.length; i++) {
+				echartS[i].style.background = 'none';
 				var myChart =echarts.init(echartS[i]);
 				var ArrayEcharts=JSON.parse(ArrayEchart[i]);
 				myChart.setOption(ArrayEcharts);
-				// var echartWidth=echartS[i].parentNode.style.width.replace(/[^0-9]/ig, "");
-				// var echartHeight=echartS[i].parentNode.style.height.replace(/[^0-9]/ig, "");
-				// var divS=echartS[i].childNodes[0];
-				// var canvasS= divS.childNodes[0];
-				//
-				// canvasS.setAttribute("width",echartWidth*1.05);
-				// canvasS.setAttribute("height",echartHeight*1.25);
-				//
-				// echartS[i].style.width=echartWidth+'px';
-				// echartS[i].style.height=echartHeight+'px';
-				// divS.style.width=echartWidth+'px';
-				// divS.style.height=echartHeight+'px';
-				// canvasS.style.width=echartWidth+'px';
-				// canvasS.style.height=echartHeight+'px';
-
 				echartS[i].style.width=100+'%';
 				echartS[i].style.height=100+'%';
 				var divS=echartS[i].childNodes[0];
@@ -174,10 +156,7 @@
 				var canvasS= divS.childNodes[0];
 				canvasS.style.width=100+'%';
 				canvasS.style.height=100+'%';
-
-
 			}
-
 
 			graphDiv.style.width = '100%';
 			graphDiv.style.height = '100%';

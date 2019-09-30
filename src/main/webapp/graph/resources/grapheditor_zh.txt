@@ -109,6 +109,7 @@ duplicate=复本
 duplicateIt=Duplicate {1}
 
 east=东
+echarts=echarts图表
 edit=编辑
 editData=编辑数据
 editDetails=编辑
